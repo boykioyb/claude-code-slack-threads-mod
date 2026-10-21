@@ -1,0 +1,14 @@
+{
+  "name": "claude-code-slack-threads-mod",
+  "description": "Slack threads panel for Claude Code",
+  "owner": {
+    "name": "boykioyb"
+  },
+  "plugins": [
+    {
+      "name": "slack-threads",
+      "source": "./",
+      "description": "Pane to follow Slack threads by link, read them as Slack shows them, translate them with AI and reply, through the Slack connector"
+    }
+  ]
+}
