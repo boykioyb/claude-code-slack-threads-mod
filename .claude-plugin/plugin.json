@@ -1,6 +1,6 @@
 {
   "name": "slack-threads",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A pane to follow Slack threads, read them as Slack shows them, translate them with AI and reply, through the Slack connector already in Claude",
   "author": {
     "name": "boykioyb"

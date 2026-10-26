@@ -18,7 +18,7 @@ import {
 } from './parse'
 import { cachedTranslation, forgetThread, loadCache, remember } from './cache'
 import type { Lang, ModelChoice, Style, TranslateOptions } from './translate'
-import { LANGS, MODELS, STYLES, translate } from './translate'
+import { isUntranslated, LANGS, MODELS, STYLES, translate } from './translate'
 import { downloadFile, findServer, readPage, readSince, sendReply } from './slack'
 import type { Thread } from './store'
 import { isUnread, loadThreads, saveThreads, threadId } from './store'
@@ -119,7 +119,9 @@ const translateMissing = async ($: EngineInterface, threadId: string, list: read
   await loadCache($, threadId).catch(() => undefined)
   const unknown = list.filter(m => !translations.has(trKey(threadId, m.ts)) && m.text.trim())
   const missing = unknown.filter(m => {
-    const text = cachedTranslation(threadId, m.ts, profile(), m.text)
+    const kept = cachedTranslation(threadId, m.ts, profile(), m.text)
+    // A kept reply that never translated the message is asked for again.
+    const text = kept !== undefined && isUntranslated(m.text, kept, settings.lang) ? undefined : kept
     if (text !== undefined) translations.set(trKey(threadId, m.ts), { state: 'done', text })
     return text === undefined
   })
